@@ -1,25 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
-
+import React from 'react'
+import {useState,createContext, useEffect} from 'react'
+import BottomNav from './components/BottomNav';
+import Home from './components/Home';
+export const AllContexts=createContext();
 function App() {
+  const [pg , setPg] = useState("2");
+  const movPgs = (val)=>{
+    setPg(val);
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <AllContexts.Provider value = {{pg , movPgs}}>
+        <BottomNav/>
+        <Home/>
+      </AllContexts.Provider>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
