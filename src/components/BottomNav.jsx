@@ -8,7 +8,6 @@ import { AllContexts } from "../App";
 import { useContext } from "react";
 function BottomNav() {
   const context_obj = useContext(AllContexts)
-  console.log(context_obj)
   return (
     <div className="BottomNav">
             <div className ={`InsBottomNav ${context_obj.pg === "0" ? "Blk" : "Gry"}`} onClick={()=>{
