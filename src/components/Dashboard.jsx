@@ -1,22 +1,52 @@
-import React from 'react'
+import React from "react";
+import Search from "./Search";
+import Graph from "./Graph";
+import { AllContexts } from "../App";
+import { useContext } from "react";
+import daily from "../Data/DAILY/daily";
+import Buy from "./Buy";
+import hh from '../Asset/down.jpeg'
 
 const Dashboard = () => {
+  const context_obj = useContext(AllContexts);
+  const defData = daily[context_obj.symbol];
+  const sym = context_obj.symbol;
+  const cur = [];
+  Object.keys(defData["Time Series (Daily)"]).map((item) => {
+    cur.push({
+      name: item.toString(),
+      val: defData["Time Series (Daily)"][item.toString()]["4. close"],
+    });
+  });
   return (
-    <>         
-        <form class="max-w-md mx-auto">   
-            <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
-            <div class="relative">
-                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                    </svg>
-                </div>
-                <input type="search" id="default-search" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Mockups, Logos..." required />
-                <button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" style={{backgroundColor:"#111827"}}>Search</button>
+    <>
+      <div style={{ margin: "20px" }}>
+        <Search />
+      </div>
+      <div style={{ height: "40vh", margin: "30px 5px" }}>
+        <Graph data={cur} />
+      </div>
+      <div style={{margin:"10px 15px"}}>
+          <div class="flex items-center" style={{backgroundColor:"#111827", padding:"20px 10px", borderRadius:"10px"}}>
+            <div class="flex-shrink-0">
+              <img class="w-8 h-8 rounded-full" src={hh} alt="Neilimage" />
             </div>
-        </form>
+            <div class="flex-1 min-w-0 ms-4">
+              <p class="text-sm font-medium text-white truncate dark:text-white">
+                {sym}
+              </p>
+              <p class="text-sm text-white truncate dark:text-gray-400">
+                {context_obj.cmpData[sym]["Net"]}
+              </p>
+            </div>
+            <div class="inline-flex items-center text-base font-semibold text-white dark:text-white">
+              {context_obj.cmpData[sym]["hold"]}
+            </div>
+          </div>
+      </div>
+      <Buy />
     </>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default Dashboard;
